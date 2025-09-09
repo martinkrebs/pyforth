@@ -1,2 +1,3 @@
 # pyforth
-FORTH implementation in Python
+FORTH implementation in Python - a work in progress...
+
