@@ -1,21 +1,12 @@
-# Run with:  python3 forth.py
-
-# Note on global variables:
-# You can access the global variables from anywhere in the program.
-# However, you can only access the local variables from the function. 
-# Additionally,if you need to change a global variable from a function,
-# you need to declare that the variable is global. 
-# You can do this using the "global" keyword.
-
 import readline
 
 
 data_stack = []
 return_stack = []
 
+
 FORTH_FALSE = 0
 FORTH_TRUE = 1  # or any non zero value
-
 
 # Primitive Words
 def clear_data_stack():
@@ -87,7 +78,6 @@ def equal_to():
         data_stack.insert(0, FORTH_FALSE)
 
 
-
 def dup():
     data_stack.insert(0, data_stack[0])
 
@@ -108,7 +98,6 @@ def display_words():
         print(f"\"{key}\"\t\t{value}")
 
 
-
 word_dict = {
     # arithmetic
     '+': plus,
@@ -121,8 +110,7 @@ word_dict = {
     '<': less_than,
     '=': equal_to,
 
- 
-    # stack related
+     # stack related
     '.': print_tos_and_remove,
     '.s': display_data_stack,
     'clear': clear_data_stack,
@@ -159,7 +147,7 @@ def common_word_code(tokens):
 
     # To implement compile time words that work in pairs such as 'if' 'else' 'then' or
     # 'begin' 'until' etc we need access to the index that is iterating through the tokens 
-    # list as we need to control of this to jump around to different words, so we use a 
+    # list.We need control of this to jump around to different words, so we use a 
     # while loop as it uses a variable as an index, in this case variable i.
     
     global data_stack
@@ -169,7 +157,7 @@ def common_word_code(tokens):
     i = 0
     while i < len(tokens):
         try:
-            # assume token is an int, and push on tos
+            # assume token is an int, and push to tos
             integer = int(tokens[i])
             data_stack.insert(0, integer)
         except ValueError:
@@ -190,13 +178,13 @@ def common_word_code(tokens):
                     tos = data_stack.pop(0)
                     if tos == FORTH_FALSE: 
                         i = return_stack[0]
-                        continue                 
+                        continue
                     else:
                         return_stack.pop(0)
                         i += 1
                         continue 
 
-                case "if":                                             
+                case "if":
                     # Do we do 'if' ?
                     tos = data_stack.pop(0)
                     if tos == FORTH_FALSE:
@@ -235,7 +223,7 @@ def common_word_code(tokens):
 
             # Handle immediate mode words
             if do_word(tokens[i]):
-                pass  # do_word() return True, so word exists and was run
+                pass  # do_word() returned True, so word exists and was run
             else:
                 print(f"Error: The word '{tokens[i]}' is not defined!")
                 data_stack = ds_original_state
@@ -257,8 +245,7 @@ def add_word_to_dict(tokens):
     # create a function for this new compiled word
     def func():
         common_word_code(tokens)
-        
-    
+
     word_dict[new_word] = func
 
 
@@ -266,7 +253,7 @@ def get_input():
     """Return user input.
 
     - Return one line if in immediate mode (colon is NOT first char of line)
-    - Or, return text up to ';' delimiter in compile mode (colon is first char of string)  
+    - Or, return text up to ';' delimiter in compile mode (colon is first char of string)
     """
 
     buff = input('--> ')
