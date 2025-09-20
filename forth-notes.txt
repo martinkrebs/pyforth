@@ -1,0 +1,62 @@
+# bengin , until example
+
+: countdown 10 begin .s 1 - dup 1 < until ;
+
+: countdown 2 begin .s 1 - dup 1 < until ;
+
+countdown <1> 10 <1> 9 <1> 8 <1> 7 <1> 6 <1> 5 <1> 4 <1> 3 <1> 2 <1> 1  ok
+
+---------------------------------------------------------------------------
+
+# IF example, works on gforth
+# you need to define square first!  : square dup * ;
+
+: sq- dup 0 < if square then 1 + ;  ok
+
+negative number: square and add 1
+positive number, just add 1
+
+
+5 sq- . 6  ok
+-5 sq- . 26  ok
+
+----------------------------------------------------------------------------
+
+if else example
+
+: mkthing dup 10 > if 100 else 1 then 666 ;
+
+in gforth:
+
+5 mkthing .s <3> 5 1 666  ok
+. . . .s 666 1 5 <0>  ok
+.s <0>  ok
+11 mkthing .s <3> 11 100 666  ok
+
+-----------------------------------------------------------------------------
+# FORTH VARIABLES
+
+
+
+
+# Working with actual memory addresses of python variables 
+
+>>> # get the memory address of a python variable
+>>> num = 7
+>>> id(num)
+139680004587952
+>>> hex(id(num))
+'0x7f09c90e41b0'
+>>> # get the value of a python variable using the variable address
+>>> import ctypes
+>>> myage = 25
+>>> myage_addr = id(myage)
+>>> myage_addr
+139680004588528
+>>> ctypes.cast(myage_addr, ctypes.py_object).value
+25
+
+
+
+
+
